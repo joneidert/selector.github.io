@@ -75,16 +75,14 @@ function normalizeText(text) {
   <div class="images" id="imageResults">
   </div>
   <body>
+   
     <div class="header-wrapper">
       <div class="site-name">
-        <h1>Calicaciónes de Estudiante</h1>
+        <h1>Consultar Calificaciones </h1>
         <h2></h2>
       </div>
     </div>
-    <div class="search-container">
-      <span class="search-icon"><i class="fa fa-search"></i></span>
-      <input type="text" id="searchInput" onkeyup="searchImages()" placeholder="Introduce Cédula">
-  </div>
+    
     <div class="menu">
       <div class="navbar">
         <div class="container">
@@ -106,22 +104,12 @@ function normalizeText(text) {
         </div>
       </div>
      
-      <div class="mini-menu">
-            <label>
-          <select class="selectnav">
-            <option value="#" selected=""></option>
-            <option value="#"></option>
-            <option value="#">→ </option>
-            <option value="#">→ </option>
-            <option value="#">→ </option>
-            <option value="#">→ </option>
-            <option value="#"></option>
-            <option value="#"></option>
-            <option value="#"></option>
-          </select>
-          </label>
-          </div>
-    </div>
+      <div class="container mt-4">
+    
+        <div class="d-flex">
+          <a href="https://www.ejemplo.com" class="btn btn-danger" style="position: relative; right: 15px;">Regresar</a>
+        </div>
+  </div>
     
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="banner">
@@ -154,7 +142,10 @@ function normalizeText(text) {
             </div>
           </div>
         </div>
-
+        <div class="search-container">
+          <span class="search-icon"><i class="fa fa-search"></i></span>
+          <input type="text" id="searchInput" onkeyup="searchImages()" placeholder="Introduce Cédula">
+      </div>
   <!-- Controls -->
       
     <div class="container">
