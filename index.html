@@ -9,7 +9,11 @@
    
 
     <title>All Template Needs</title>
-
+    <style>
+      .thumbnail {
+          display: none; /* Ocultar inicialmente */
+      }
+  </style>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="css/normalize.css">
@@ -31,60 +35,71 @@
         $('.menu').mobileMenu();
     });
   </script>
- <script>
-  function searchImages() {
+ <div class="images" id="imageResults">
+</div>
+<body>
+  <script>
+function searchContent() {
     var input = document.getElementById("searchInput");
-    var filter = normalizeText(input.value).toUpperCase(); // Normalizar y convertir a mayúsculas
+    var filter = input.value.toLowerCase().trim(); // Asegura eliminar espacios en blanco
+
     var thumbnails = document.querySelectorAll(".thumbnail");
+    var found = false; // Variable para rastrear si se encontró algún resultado
 
-    for (var i = 0; i < thumbnails.length; i++) {
-        var caption = thumbnails[i].getElementsByClassName("caption")[0];
-        var title = caption ? caption.getElementsByTagName("h1")[0] : null;
-        var paragraphs = caption ? caption.getElementsByTagName("p") : [];
-        var imageMatch = false;
+    // Validación para el campo vacío
+    if (filter === "") {
+        thumbnails.forEach(function(thumbnail) {
+            thumbnail.style.display = "none"; // Ocultar todos los elementos
+        });
 
-        // Verificar coincidencia en el título
-        if (title) {
-            var txtValueTitle = normalizeText(title.textContent || title.innerText).toUpperCase();
-            if (txtValueTitle.includes(filter)) {
-                imageMatch = true;
-            }
-        }
-
-        // Verificar coincidencia en los párrafos
-        for (var j = 0; j < paragraphs.length; j++) {
-            var txtValueParagraph = normalizeText(paragraphs[j].textContent || paragraphs[j].innerText).toUpperCase();
-            if (txtValueParagraph.includes(filter)) {
-                imageMatch = true;
-                break;
-            }
-        }
-
-        // Mostrar u ocultar la miniatura
-        thumbnails[i].style.display = imageMatch ? "" : "none";
+        // Mostrar mensaje de alerta
+        alert("No se ha ingresado ningún dato. Por favor, intente nuevamente.");
+        return; // Detener la ejecución de la función
     }
+
+    thumbnails.forEach(function(thumbnail) {
+        var cedula = thumbnail.querySelector("p")?.textContent.toLowerCase() || ""; // Solo busca en <p>
+
+        // Mostrar u ocultar según la coincidencia
+        if (cedula.includes(filter)) {
+            thumbnail.style.display = "block"; // Mostrar si coincide
+            found = true; // Se encontró un resultado
+        } else {
+            thumbnail.style.display = "none"; // Ocultar si no coincide
+        }
+    });
+
+    // Mostrar mensaje si no se encontró ningún resultado
+    if (!found) {
+        alert("El estudiante no está en la base de datos.");
+    }
+
+    // Limpiar el campo de entrada
+    input.value = "";
 }
 
-// Función auxiliar para normalizar texto (eliminar acentos y caracteres especiales)
-function normalizeText(text) {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Elimina acentos
-}
 </script>
   </head>
   
   <div class="images" id="imageResults">
   </div>
   <body>
-   
     <div class="header-wrapper">
       <div class="site-name">
-        <a href="https://www.ejemplo.com" class="btn btn-danger">Regresar</a>
-        <h1>Consultar Calificaciones </h1>
+        <h1>Calificaciónes de Estudiante</h1>
         <h2></h2>
       </div>
     </div>
-    
-    <div class="menu">
+    <div class="search-container">
+      <span class="search-icon"><i class="fa fa-search"></i></span>
+      <input type="text" id="searchInput" placeholder=" Introduzca su cédula">
+      <button onclick="searchContent()">Buscar</button>
+
+  </div>
+
+
+  
+  <div class="menu">
       <div class="navbar">
         <div class="container">
           <div class="navbar-header">
@@ -94,7 +109,7 @@ function normalizeText(text) {
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              
+              <li><a href="#"></a></li>
               <li><a href="#"></a></li>
               <li><a href="#"></a></li>
               <li><a href="#"></a></li>
@@ -105,51 +120,30 @@ function normalizeText(text) {
         </div>
       </div>
      
-      <div class="container mt-4">
-    
-        <div class="d-flex">
-          
-        </div>
-  </div>
+      <div class="mini-menu">
+            <label>
+          <select class="selectnav">
+            <option value="#" selected=""></option>
+            <option value="#"></option>
+            <option value="#">→ </option>
+            <option value="#">→ </option>
+            <option value="#">→ </option>
+            <option value="#">→ </option>
+            <option value="#"></option>
+            <option value="#"></option>
+            <option value="#"></option>
+          </select>
+          </label>
+          </div>
+    </div>
     
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="banner">
       <div id="carousel-example-generic" class="carousel slide">
   
-  <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-          <div class="item active">
-            <img src="" alt="">
-            <div class="carousel-caption">
-              <h1>Morbi semuis</h1>
-              <h2>Praesent dapibus, neque id cursus faucibus tortas augue eu vulputate</h2>
-              <a href="#" class="btn">facilis</a>
-            </div>
-          </div>
-          <div class="item">
-            <img src="img/banner-image.jpg" alt="">
-            <div class="carousel-caption">
-              <h1>Morbi semuis</h1>
-              <h2>Praesent dapibus, neque id cursus faucibus tortas augue eu vulputate</h2>
-              <a href="#" class="btn">facilis</a>
-            </div>
-          </div>
-          <div class="item">
-            <img src="img/banner-image.jpg" alt="">
-            <div class="carousel-caption">
-              <h1>Morbi semuis</h1>
-              <h2>Praesent dapibus, neque id cursus faucibus tortas augue eu vulputate</h2>
-              <a href="#" class="btn">facilis</a>
-            </div>
-          </div>
-        </div>
-        <div class="search-container">
-          <span class="search-icon"><i class="fa fa-search"></i></span>
-          <input type="text" id="searchInput" onkeyup="searchImages()" placeholder="Introduce Cédula">
-      </div>
+       
   <!-- Controls -->
-      
-    <div class="container">
+     <div class="container">
       <div class="featured-block">
         <!-- Example row of columns -->
         <div class="row">
@@ -159,8 +153,9 @@ function normalizeText(text) {
               <img src="img/img1.jpg" alt="" class="img-responsive">
               <div class="caption">
                 <h1>AARÓN BLANCO</h1>
-                <p>cedula: 22906698</p>
-                <a class="btn" href="boletin/Id 02.html">Consultar</a>
+                <span>Cedula:</span> 
+                <p>22906698</p>
+                <a href="boletin/Id 02.html" class="btn btn-primary">Consultar</a>
               </div>
               </div>
             </div>
@@ -171,8 +166,9 @@ function normalizeText(text) {
                 <img src="img/img2.jpg" alt="" class="img-responsive">
                 <div class="caption">
                   <h1>ALEJANDRO NICOLAS N.</h1>
-                  <p>cedula: 6418287</p>
-                  <a class="btn" href="boletin/ID 03.html">Consultar </a>
+                  <span>Cedula:</span> 
+                  <p>6418287</p>
+                  <a href="boletin/Id 03.html" class="btn btn-primary">Consultar</a>
                 </div>
                 </div>
               </div>
@@ -182,8 +178,9 @@ function normalizeText(text) {
                   <img src="img/img3.jpg" alt="" class="img-responsive">
                   <div class="caption">
                     <h1>ANGELO JOSÉ L.</h1>
-                    <p>cedula: 23691329</p>
-                    <a class="btn" href="boletin/ID 04.html">Consultar</a>
+                    <span>Cedula:</span> 
+                    <p>23691329</p>
+                    <a href="boletin/Id 04.html" class="btn btn-primary">Consultar</a>
                   </div>
                   </div>
                 </div>
@@ -193,8 +190,9 @@ function normalizeText(text) {
                     <img src="img/img4.jpg" alt="" class="img-responsive">
                     <div class="caption">
                       <h1>AUGUSTO ROMERO</h1>
-                      <p>Cedula: 33937222</p>
-                      <a class="btn" href="boletin/ID 05.html">Consultar</a>
+                      <span>Cedula:</span> 
+                      <p>33937222</p>
+                      <a href="boletin/Id 05.html" class="btn btn-primary">Consultar</a>
                     </div>
                     </div>
                   </div>
@@ -204,8 +202,9 @@ function normalizeText(text) {
                       <img src="img/img5.jpg" alt="" class="img-responsive">
                       <div class="caption">
                         <h1>CARLA COROMOTO </h1>
-                        <p>Cedula: 16115606</p>
-                        <a class="btn" href="boletin/ID 06.html">consulatar</a>
+                        <span>Cedula:</span> 
+                        <p> 16115606</p>
+                        <a href="boletin/Id 06.html" class="btn btn-primary">Consultar</a>
                       </div>
                       </div>
                     </div>
@@ -215,8 +214,9 @@ function normalizeText(text) {
                         <img src="img/img6.jpg" alt="" class="img-responsive">
                         <div class="caption">
                           <h1>CARLOS JOSÉ RAMOS</h1>
-                          <p>Cedula: 17975467</p>
-                          <a class="btn" href="boletin/ID 07.html">more</a>
+                         <span>Cedula:</span> 
+                         <p> 17975467</p>
+                          <a href="boletin/Id 07.html" class="btn btn-primary">Consultar</a>
                         </div>
                         </div>
                       </div>
@@ -604,63 +604,8 @@ function normalizeText(text) {
                 <a class="btn" href="#">more</a>
               </div>
               </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
+            </div> 
+          </div><div class="col-md-3">
             <div class="block">
             <div class="thumbnail">
               <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -670,8 +615,7 @@ function normalizeText(text) {
                 <a class="btn" href="#">more</a>
               </div>
               </div>
-            </div>
-            </div><div class="col-md-3">
+            </div> </div><div class="col-md-3">
               <div class="block">
               <div class="thumbnail">
                 <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -681,30 +625,7 @@ function normalizeText(text) {
                   <a class="btn" href="#">more</a>
                 </div>
                 </div>
-              </div>
-              </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
+              </div> </div><div class="col-md-3">
                 <div class="block">
                 <div class="thumbnail">
                   <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -714,8 +635,7 @@ function normalizeText(text) {
                     <a class="btn" href="#">more</a>
                   </div>
                   </div>
-                </div>
-                </div><div class="col-md-3">
+                </div> </div><div class="col-md-3">
                   <div class="block">
                   <div class="thumbnail">
                     <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -725,8 +645,7 @@ function normalizeText(text) {
                       <a class="btn" href="#">more</a>
                     </div>
                     </div>
-                  </div>
-                  </div><div class="col-md-3">
+                  </div> </div><div class="col-md-3">
                     <div class="block">
                     <div class="thumbnail">
                       <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -736,8 +655,7 @@ function normalizeText(text) {
                         <a class="btn" href="#">more</a>
                       </div>
                       </div>
-                    </div>
-                    </div><div class="col-md-3">
+                    </div> </div><div class="col-md-3">
                       <div class="block">
                       <div class="thumbnail">
                         <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -747,8 +665,7 @@ function normalizeText(text) {
                           <a class="btn" href="#">more</a>
                         </div>
                         </div>
-                      </div>
-                      </div><div class="col-md-3">
+                      </div> </div><div class="col-md-3">
                         <div class="block">
                         <div class="thumbnail">
                           <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -758,8 +675,7 @@ function normalizeText(text) {
                             <a class="btn" href="#">more</a>
                           </div>
                           </div>
-                        </div>
-                        </div><div class="col-md-3">
+                        </div> </div><div class="col-md-3">
                           <div class="block">
                           <div class="thumbnail">
                             <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -769,8 +685,7 @@ function normalizeText(text) {
                               <a class="btn" href="#">more</a>
                             </div>
                             </div>
-                          </div>
-                          </div><div class="col-md-3">
+                          </div> </div><div class="col-md-3">
                             <div class="block">
                             <div class="thumbnail">
                               <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -780,8 +695,7 @@ function normalizeText(text) {
                                 <a class="btn" href="#">more</a>
                               </div>
                               </div>
-                            </div>
-                            </div><div class="col-md-3">
+                            </div> </div><div class="col-md-3">
                               <div class="block">
                               <div class="thumbnail">
                                 <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -791,8 +705,7 @@ function normalizeText(text) {
                                   <a class="btn" href="#">more</a>
                                 </div>
                                 </div>
-                              </div>
-                              </div><div class="col-md-3">
+                              </div> </div><div class="col-md-3">
                                 <div class="block">
                                 <div class="thumbnail">
                                   <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -802,8 +715,7 @@ function normalizeText(text) {
                                     <a class="btn" href="#">more</a>
                                   </div>
                                   </div>
-                                </div>
-                                </div><div class="col-md-3">
+                                </div> </div><div class="col-md-3">
                                   <div class="block">
                                   <div class="thumbnail">
                                     <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -813,7 +725,17 @@ function normalizeText(text) {
                                       <a class="btn" href="#">more</a>
                                     </div>
                                     </div>
-                                  </div>
+                                  </div> </div><div class="col-md-3">
+                                    <div class="block">
+                                    <div class="thumbnail">
+                                      <img src="img/img1.jpg" alt="" class="img-responsive">
+                                      <div class="caption">
+                                        <h1>JONEIDER</h1>
+                                        <p>123456</p>
+                                        <a class="btn" href="#">more</a>
+                                      </div>
+                                      </div>
+                                    </div> 
                                   </div><div class="col-md-3">
                                     <div class="block">
                                     <div class="thumbnail">
@@ -824,8 +746,7 @@ function normalizeText(text) {
                                         <a class="btn" href="#">more</a>
                                       </div>
                                       </div>
-                                    </div>
-                                    </div><div class="col-md-3">
+                                    </div> </div><div class="col-md-3">
                                       <div class="block">
                                       <div class="thumbnail">
                                         <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -835,8 +756,7 @@ function normalizeText(text) {
                                           <a class="btn" href="#">more</a>
                                         </div>
                                         </div>
-                                      </div>
-                                      </div><div class="col-md-3">
+                                      </div> </div><div class="col-md-3">
                                         <div class="block">
                                         <div class="thumbnail">
                                           <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -846,8 +766,7 @@ function normalizeText(text) {
                                             <a class="btn" href="#">more</a>
                                           </div>
                                           </div>
-                                        </div>
-                                        </div><div class="col-md-3">
+                                        </div> </div><div class="col-md-3">
                                           <div class="block">
                                           <div class="thumbnail">
                                             <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -857,8 +776,7 @@ function normalizeText(text) {
                                               <a class="btn" href="#">more</a>
                                             </div>
                                             </div>
-                                          </div>
-                                          </div><div class="col-md-3">
+                                          </div> </div><div class="col-md-3">
                                             <div class="block">
                                             <div class="thumbnail">
                                               <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -868,8 +786,7 @@ function normalizeText(text) {
                                                 <a class="btn" href="#">more</a>
                                               </div>
                                               </div>
-                                            </div>
-                                            </div><div class="col-md-3">
+                                            </div> </div><div class="col-md-3">
                                               <div class="block">
                                               <div class="thumbnail">
                                                 <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -879,8 +796,7 @@ function normalizeText(text) {
                                                   <a class="btn" href="#">more</a>
                                                 </div>
                                                 </div>
-                                              </div>
-                                              </div><div class="col-md-3">
+                                              </div> </div><div class="col-md-3">
                                                 <div class="block">
                                                 <div class="thumbnail">
                                                   <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -890,789 +806,7 @@ function normalizeText(text) {
                                                     <a class="btn" href="#">more</a>
                                                   </div>
                                                   </div>
-                                                </div>
-                                                </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-                                <div class="block">
-                                <div class="thumbnail">
-                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                  <div class="caption">
-                                    <h1>Lorem ipsum</h1>
-                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                    <a class="btn" href="#">more</a>
-                                  </div>
-                                  </div>
-                                </div>
-                                </div><div class="col-md-3">
-                                  <div class="block">
-                                  <div class="thumbnail">
-                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                    <div class="caption">
-                                      <h1>Lorem ipsum</h1>
-                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                      <a class="btn" href="#">more</a>
-                                    </div>
-                                    </div>
-                                  </div>
-                                  </div><div class="col-md-3">
-                                    <div class="block">
-                                    <div class="thumbnail">
-                                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                                      <div class="caption">
-                                        <h1>Lorem ipsum</h1>
-                                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                        <a class="btn" href="#">more</a>
-                                      </div>
-                                      </div>
-                                    </div>
-                                    </div><div class="col-md-3">
-                                      <div class="block">
-                                      <div class="thumbnail">
-                                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                                        <div class="caption">
-                                          <h1>Lorem ipsum</h1>
-                                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                          <a class="btn" href="#">more</a>
-                                        </div>
-                                        </div>
-                                      </div>
-                                      </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-                                <div class="block">
-                                <div class="thumbnail">
-                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                  <div class="caption">
-                                    <h1>Lorem ipsum</h1>
-                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                    <a class="btn" href="#">more</a>
-                                  </div>
-                                  </div>
-                                </div>
-                                </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-                                <div class="block">
-                                <div class="thumbnail">
-                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                  <div class="caption">
-                                    <h1>Lorem ipsum</h1>
-                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                    <a class="btn" href="#">more</a>
-                                  </div>
-                                  </div>
-                                </div>
-                                </div><div class="col-md-3">
-                                  <div class="block">
-                                  <div class="thumbnail">
-                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                    <div class="caption">
-                                      <h1>Lorem ipsum</h1>
-                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                      <a class="btn" href="#">more</a>
-                                    </div>
-                                    </div>
-                                  </div>
-                                  </div><div class="col-md-3">
-                                    <div class="block">
-                                    <div class="thumbnail">
-                                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                                      <div class="caption">
-                                        <h1>Lorem ipsum</h1>
-                                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                        <a class="btn" href="#">more</a>
-                                      </div>
-                                      </div>
-                                    </div>
-                                    </div><div class="col-md-3">
-                                      <div class="block">
-                                      <div class="thumbnail">
-                                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                                        <div class="caption">
-                                          <h1>Lorem ipsum</h1>
-                                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                          <a class="btn" href="#">more</a>
-                                        </div>
-                                        </div>
-                                      </div>
-                                      </div><div class="col-md-3">
-                                        <div class="block">
-                                        <div class="thumbnail">
-                                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                                          <div class="caption">
-                                            <h1>Lorem ipsum</h1>
-                                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                            <a class="btn" href="#">more</a>
-                                          </div>
-                                          </div>
-                                        </div>
-                                        </div><div class="col-md-3">
-                                          <div class="block">
-                                          <div class="thumbnail">
-                                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                                            <div class="caption">
-                                              <h1>Lorem ipsum</h1>
-                                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                              <a class="btn" href="#">more</a>
-                                            </div>
-                                            </div>
-                                          </div>
-                                          </div><div class="col-md-3">
-                                            <div class="block">
-                                            <div class="thumbnail">
-                                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                                              <div class="caption">
-                                                <h1>Lorem ipsum</h1>
-                                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                <a class="btn" href="#">more</a>
-                                              </div>
-                                              </div>
-                                            </div>
-                                            </div><div class="col-md-3">
-                                              <div class="block">
-                                              <div class="thumbnail">
-                                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                <div class="caption">
-                                                  <h1>Lorem ipsum</h1>
-                                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                  <a class="btn" href="#">more</a>
-                                                </div>
-                                                </div>
-                                              </div>
-                                              </div><div class="col-md-3">
-                                                <div class="block">
-                                                <div class="thumbnail">
-                                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                  <div class="caption">
-                                                    <h1>Lorem ipsum</h1>
-                                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                    <a class="btn" href="#">more</a>
-                                                  </div>
-                                                  </div>
-                                                </div>
-                                                </div><div class="col-md-3">
+                                                </div> </div><div class="col-md-3">
                                                   <div class="block">
                                                   <div class="thumbnail">
                                                     <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -1682,8 +816,7 @@ function normalizeText(text) {
                                                       <a class="btn" href="#">more</a>
                                                     </div>
                                                     </div>
-                                                  </div>
-                                                  </div><div class="col-md-3">
+                                                  </div> </div><div class="col-md-3">
                                                     <div class="block">
                                                     <div class="thumbnail">
                                                       <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -1693,8 +826,7 @@ function normalizeText(text) {
                                                         <a class="btn" href="#">more</a>
                                                       </div>
                                                       </div>
-                                                    </div>
-                                                    </div><div class="col-md-3">
+                                                    </div> </div><div class="col-md-3">
                                                       <div class="block">
                                                       <div class="thumbnail">
                                                         <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -1704,283 +836,7 @@ function normalizeText(text) {
                                                           <a class="btn" href="#">more</a>
                                                         </div>
                                                         </div>
-                                                      </div>
-                                                      </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-                                <div class="block">
-                                <div class="thumbnail">
-                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                  <div class="caption">
-                                    <h1>Lorem ipsum</h1>
-                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                    <a class="btn" href="#">more</a>
-                                  </div>
-                                  </div>
-                                </div>
-                                </div><div class="col-md-3">
-                                  <div class="block">
-                                  <div class="thumbnail">
-                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                    <div class="caption">
-                                      <h1>Lorem ipsum</h1>
-                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                      <a class="btn" href="#">more</a>
-                                    </div>
-                                    </div>
-                                  </div>
-                                  </div><div class="col-md-3">
-                                    <div class="block">
-                                    <div class="thumbnail">
-                                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                                      <div class="caption">
-                                        <h1>Lorem ipsum</h1>
-                                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                        <a class="btn" href="#">more</a>
-                                      </div>
-                                      </div>
-                                    </div>
-                                    </div><div class="col-md-3">
-                                      <div class="block">
-                                      <div class="thumbnail">
-                                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                                        <div class="caption">
-                                          <h1>Lorem ipsum</h1>
-                                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                          <a class="btn" href="#">more</a>
-                                        </div>
-                                        </div>
-                                      </div>
-                                      </div><div class="col-md-3">
-                                        <div class="block">
-                                        <div class="thumbnail">
-                                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                                          <div class="caption">
-                                            <h1>Lorem ipsum</h1>
-                                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                            <a class="btn" href="#">more</a>
-                                          </div>
-                                          </div>
-                                        </div>
-                                        </div><div class="col-md-3">
-                                          <div class="block">
-                                          <div class="thumbnail">
-                                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                                            <div class="caption">
-                                              <h1>Lorem ipsum</h1>
-                                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                              <a class="btn" href="#">more</a>
-                                            </div>
-                                            </div>
-                                          </div>
-                                          </div><div class="col-md-3">
-                                            <div class="block">
-                                            <div class="thumbnail">
-                                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                                              <div class="caption">
-                                                <h1>Lorem ipsum</h1>
-                                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                <a class="btn" href="#">more</a>
-                                              </div>
-                                              </div>
-                                            </div>
-                                            </div><div class="col-md-3">
-                                              <div class="block">
-                                              <div class="thumbnail">
-                                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                <div class="caption">
-                                                  <h1>Lorem ipsum</h1>
-                                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                  <a class="btn" href="#">more</a>
-                                                </div>
-                                                </div>
-                                              </div>
-                                              </div><div class="col-md-3">
-                                                <div class="block">
-                                                <div class="thumbnail">
-                                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                  <div class="caption">
-                                                    <h1>Lorem ipsum</h1>
-                                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                    <a class="btn" href="#">more</a>
-                                                  </div>
-                                                  </div>
-                                                </div>
-                                                </div><div class="col-md-3">
-                                                  <div class="block">
-                                                  <div class="thumbnail">
-                                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                    <div class="caption">
-                                                      <h1>Lorem ipsum</h1>
-                                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                      <a class="btn" href="#">more</a>
-                                                    </div>
-                                                    </div>
-                                                  </div>
-                                                  </div><div class="col-md-3">
-                                                    <div class="block">
-                                                    <div class="thumbnail">
-                                                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                      <div class="caption">
-                                                        <h1>Lorem ipsum</h1>
-                                                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                        <a class="btn" href="#">more</a>
-                                                      </div>
-                                                      </div>
-                                                    </div>
-                                                    </div><div class="col-md-3">
-                                                      <div class="block">
-                                                      <div class="thumbnail">
-                                                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                        <div class="caption">
-                                                          <h1>Lorem ipsum</h1>
-                                                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                          <a class="btn" href="#">more</a>
-                                                        </div>
-                                                        </div>
-                                                      </div>
-                                                      </div><div class="col-md-3">
+                                                      </div> </div><div class="col-md-3">
                                                         <div class="block">
                                                         <div class="thumbnail">
                                                           <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -1990,8 +846,7 @@ function normalizeText(text) {
                                                             <a class="btn" href="#">more</a>
                                                           </div>
                                                           </div>
-                                                        </div>
-                                                        </div><div class="col-md-3">
+                                                        </div> </div><div class="col-md-3">
                                                           <div class="block">
                                                           <div class="thumbnail">
                                                             <img src="img/img1.jpg" alt="" class="img-responsive">
@@ -2001,1132 +856,12 @@ function normalizeText(text) {
                                                               <a class="btn" href="#">more</a>
                                                             </div>
                                                             </div>
-                                                          </div>
-                                                          </div><div class="col-md-3">
-                                                            <div class="block">
-                                                            <div class="thumbnail">
-                                                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                              <div class="caption">
-                                                                <h1>Lorem ipsum</h1>
-                                                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                                <a class="btn" href="#">more</a>
-                                                              </div>
-                                                              </div>
-                                                            </div>
-                                                            </div><div class="col-md-3">
-                                                              <div class="block">
-                                                              <div class="thumbnail">
-                                                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                                <div class="caption">
-                                                                  <h1>Lorem ipsum</h1>
-                                                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                                  <a class="btn" href="#">more</a>
-                                                                </div>
-                                                                </div>
-                                                              </div>
-                                                              </div><div class="col-md-3">
-                                                                <div class="block">
-                                                                <div class="thumbnail">
-                                                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                                  <div class="caption">
-                                                                    <h1>Lorem ipsum</h1>
-                                                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                                    <a class="btn" href="#">more</a>
-                                                                  </div>
-                                                                  </div>
-                                                                </div>
-                                                                </div><div class="col-md-3">
-                                                                  <div class="block">
-                                                                  <div class="thumbnail">
-                                                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                                    <div class="caption">
-                                                                      <h1>Lorem ipsum</h1>
-                                                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                                      <a class="btn" href="#">more</a>
-                                                                    </div>
-                                                                    </div>
-                                                                  </div>
-                                                                  </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-                                <div class="block">
-                                <div class="thumbnail">
-                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                  <div class="caption">
-                                    <h1>Lorem ipsum</h1>
-                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                    <a class="btn" href="#">more</a>
-                                  </div>
-                                  </div>
-                                </div>
-                                </div><div class="col-md-3">
-                                  <div class="block">
-                                  <div class="thumbnail">
-                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                    <div class="caption">
-                                      <h1>Lorem ipsum</h1>
-                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                      <a class="btn" href="#">more</a>
-                                    </div>
-                                    </div>
-                                  </div>
-                                  </div><div class="col-md-3">
-                                    <div class="block">
-                                    <div class="thumbnail">
-                                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                                      <div class="caption">
-                                        <h1>Lorem ipsum</h1>
-                                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                        <a class="btn" href="#">more</a>
-                                      </div>
-                                      </div>
-                                    </div>
-                                    </div><div class="col-md-3">
-                                      <div class="block">
-                                      <div class="thumbnail">
-                                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                                        <div class="caption">
-                                          <h1>Lorem ipsum</h1>
-                                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                          <a class="btn" href="#">more</a>
-                                        </div>
-                                        </div>
-                                      </div>
-                                      </div><div class="col-md-3">
-                                        <div class="block">
-                                        <div class="thumbnail">
-                                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                                          <div class="caption">
-                                            <h1>Lorem ipsum</h1>
-                                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                            <a class="btn" href="#">more</a>
-                                          </div>
-                                          </div>
-                                        </div>
-                                        </div><div class="col-md-3">
-                                          <div class="block">
-                                          <div class="thumbnail">
-                                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                                            <div class="caption">
-                                              <h1>Lorem ipsum</h1>
-                                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                              <a class="btn" href="#">more</a>
-                                            </div>
-                                            </div>
-                                          </div>
-                                          </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div><div class="col-md-3">
-                <div class="block">
-                <div class="thumbnail">
-                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                  <div class="caption">
-                    <h1>Lorem ipsum</h1>
-                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                    <a class="btn" href="#">more</a>
-                  </div>
-                  </div>
-                </div>
-                </div><div class="col-md-3">
-                  <div class="block">
-                  <div class="thumbnail">
-                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                    <div class="caption">
-                      <h1>Lorem ipsum</h1>
-                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                      <a class="btn" href="#">more</a>
-                    </div>
-                    </div>
-                  </div>
-                  </div><div class="col-md-3">
-                    <div class="block">
-                    <div class="thumbnail">
-                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                      <div class="caption">
-                        <h1>Lorem ipsum</h1>
-                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                        <a class="btn" href="#">more</a>
-                      </div>
-                      </div>
-                    </div>
-                    </div><div class="col-md-3">
-                      <div class="block">
-                      <div class="thumbnail">
-                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                        <div class="caption">
-                          <h1>Lorem ipsum</h1>
-                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                          <a class="btn" href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      </div><div class="col-md-3">
-                        <div class="block">
-                        <div class="thumbnail">
-                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                          <div class="caption">
-                            <h1>Lorem ipsum</h1>
-                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                            <a class="btn" href="#">more</a>
-                          </div>
-                          </div>
-                        </div>
-                        </div><div class="col-md-3">
-                          <div class="block">
-                          <div class="thumbnail">
-                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                            <div class="caption">
-                              <h1>Lorem ipsum</h1>
-                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                              <a class="btn" href="#">more</a>
-                            </div>
-                            </div>
-                          </div>
-                          </div><div class="col-md-3">
-                            <div class="block">
-                            <div class="thumbnail">
-                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                              <div class="caption">
-                                <h1>Lorem ipsum</h1>
-                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                <a class="btn" href="#">more</a>
-                              </div>
-                              </div>
-                            </div>
-                            </div><div class="col-md-3">
-                              <div class="block">
-                              <div class="thumbnail">
-                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                <div class="caption">
-                                  <h1>Lorem ipsum</h1>
-                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                  <a class="btn" href="#">more</a>
-                                </div>
-                                </div>
-                              </div>
-                              </div><div class="col-md-3">
-                                <div class="block">
-                                <div class="thumbnail">
-                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                  <div class="caption">
-                                    <h1>Lorem ipsum</h1>
-                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                    <a class="btn" href="#">more</a>
-                                  </div>
-                                  </div>
-                                </div>
-                                </div><div class="col-md-3">
-                                  <div class="block">
-                                  <div class="thumbnail">
-                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                    <div class="caption">
-                                      <h1>Lorem ipsum</h1>
-                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                      <a class="btn" href="#">more</a>
-                                    </div>
-                                    </div>
-                                  </div>
-                                  </div><div class="col-md-3">
-                                    <div class="block">
-                                    <div class="thumbnail">
-                                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                                      <div class="caption">
-                                        <h1>Lorem ipsum</h1>
-                                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                        <a class="btn" href="#">more</a>
-                                      </div>
-                                      </div>
-                                    </div>
-                                    </div><div class="col-md-3">
-                                      <div class="block">
-                                      <div class="thumbnail">
-                                        <img src="img/img1.jpg" alt="" class="img-responsive">
-                                        <div class="caption">
-                                          <h1>Lorem ipsum</h1>
-                                          <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                          <a class="btn" href="#">more</a>
-                                        </div>
-                                        </div>
-                                      </div>
-                                      </div><div class="col-md-3">
-                                        <div class="block">
-                                        <div class="thumbnail">
-                                          <img src="img/img1.jpg" alt="" class="img-responsive">
-                                          <div class="caption">
-                                            <h1>Lorem ipsum</h1>
-                                            <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                            <a class="btn" href="#">more</a>
-                                          </div>
-                                          </div>
-                                        </div>
-                                        </div><div class="col-md-3">
-                                          <div class="block">
-                                          <div class="thumbnail">
-                                            <img src="img/img1.jpg" alt="" class="img-responsive">
-                                            <div class="caption">
-                                              <h1>Lorem ipsum</h1>
-                                              <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                              <a class="btn" href="#">more</a>
-                                            </div>
-                                            </div>
-                                          </div>
-                                          </div><div class="col-md-3">
-                                            <div class="block">
-                                            <div class="thumbnail">
-                                              <img src="img/img1.jpg" alt="" class="img-responsive">
-                                              <div class="caption">
-                                                <h1>Lorem ipsum</h1>
-                                                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                <a class="btn" href="#">more</a>
-                                              </div>
-                                              </div>
-                                            </div>
-                                            </div><div class="col-md-3">
-                                              <div class="block">
-                                              <div class="thumbnail">
-                                                <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                <div class="caption">
-                                                  <h1>Lorem ipsum</h1>
-                                                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                  <a class="btn" href="#">more</a>
-                                                </div>
-                                                </div>
-                                              </div>
-                                              </div><div class="col-md-3">
-                                                <div class="block">
-                                                <div class="thumbnail">
-                                                  <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                  <div class="caption">
-                                                    <h1>Lorem ipsum</h1>
-                                                    <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                    <a class="btn" href="#">more</a>
-                                                  </div>
-                                                  </div>
-                                                </div>
-                                                </div><div class="col-md-3">
-                                                  <div class="block">
-                                                  <div class="thumbnail">
-                                                    <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                    <div class="caption">
-                                                      <h1>Lorem ipsum</h1>
-                                                      <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                      <a class="btn" href="#">more</a>
-                                                    </div>
-                                                    </div>
-                                                  </div>
-                                                  </div><div class="col-md-3">
-                                                    <div class="block">
-                                                    <div class="thumbnail">
-                                                      <img src="img/img1.jpg" alt="" class="img-responsive">
-                                                      <div class="caption">
-                                                        <h1>Lorem ipsum</h1>
-                                                        <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                                                        <a class="btn" href="#">more</a>
-                                                      </div>
-                                                      </div>
-                                                    </div>
-                                                    </div><div class="col-md-3">
-            <div class="block">
-            <div class="thumbnail">
-              <img src="img/img1.jpg" alt="" class="img-responsive">
-              <div class="caption">
-                <h1>Lorem ipsum</h1>
-                <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                <a class="btn" href="#">more</a>
-              </div>
-              </div>
-            </div>
-            </div><div class="col-md-3">
-              <div class="block">
-              <div class="thumbnail">
-                <img src="img/img1.jpg" alt="" class="img-responsive">
-                <div class="caption">
-                  <h1>Lorem ipsum</h1>
-                  <p>Cuibstui ipsum dolor sit amet, consectetuer adipiscing eli onec odio cuisque volutpat mattis</p>
-                  <a class="btn" href="#">more</a>
-                </div>
-                </div>
-              </div>
-              </div>
+                                                          </div> 
+  
+  
+  
           
-        </div> 
+       
         <div class="ruler"></div>  
         </div>
         
